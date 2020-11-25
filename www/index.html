@@ -1,0 +1,36 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serverless counter</title>
+</head>
+<body>
+  <h1>Serverless counter</h1>
+
+  <div>
+    <button id="increment">Increment</button>
+    <h2 id="count"></h2>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@5.0.0/dist/browser/signalr.min.js"></script>
+  <script>
+    const button = document.getElementById('increment')
+    const count = document.getElementById('count')
+    const baseUrl = document.location.hostname === 'localhost' ? 'http://localhost:7071' : ''
+
+    button.onclick = async function() {
+      await fetch(`${baseUrl}/api/counter`, { method: 'POST' })
+    }
+
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl(`${baseUrl}/api`)
+      .withAutomaticReconnect()
+      .build()
+    
+    connection.on('newCount', function(newValue) {
+      count.textContent = newValue
+    })
+
+    connection.start()
+  </script>
+</body>
+</html>

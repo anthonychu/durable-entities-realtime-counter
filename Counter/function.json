@@ -1,0 +1,16 @@
+{
+  "bindings": [
+    {
+      "name": "context",
+      "type": "entityTrigger",
+      "direction": "in"
+    },
+    {
+      "type": "signalR",
+      "direction": "out",
+      "name": "count",
+      "hubName": "counterhub",
+      "connectionStringSetting": "AzureSignalRConnectionString"
+    }
+  ]
+}
